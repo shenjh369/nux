@@ -4,12 +4,13 @@ import (
 	"bufio"
 	"bytes"
 	"fmt"
-	"github.com/toolkits/file"
-	"github.com/toolkits/slice"
-	"github.com/toolkits/sys"
 	"io"
 	"strconv"
 	"strings"
+
+	"github.com/toolkits/file"
+	"github.com/toolkits/slice"
+	"github.com/toolkits/sys"
 )
 
 func ListeningPorts() ([]int64, error) {

@@ -1,72 +1,73 @@
 package nux
 
 import (
-    "bufio"
-    "bytes"
-    "github.com/toolkits/file"
-    "io"
-    "io/ioutil"
-    "strconv"
-    "strings"
+	"bufio"
+	"bytes"
+	"io"
+	"io/ioutil"
+	"strconv"
+	"strings"
+
+	"github.com/toolkits/file"
 )
 
 var Multi uint64 = 1024
 
 var WANT = map[string]struct{}{
-    "Buffers:":   struct{}{},
-    "Cached:":    struct{}{},
-    "MemTotal:":  struct{}{},
-    "MemFree:":   struct{}{},
-    "SwapTotal:": struct{}{},
-    "SwapFree:":  struct{}{},
+	"Buffers:":   struct{}{},
+	"Cached:":    struct{}{},
+	"MemTotal:":  struct{}{},
+	"MemFree:":   struct{}{},
+	"SwapTotal:": struct{}{},
+	"SwapFree:":  struct{}{},
 }
 
 func MemInfo() (*Mem, error) {
-    contents, err := ioutil.ReadFile("/proc/meminfo")
-    if err != nil {
-        return nil, err
-    }
+	contents, err := ioutil.ReadFile("/proc/meminfo")
+	if err != nil {
+		return nil, err
+	}
 
-    memInfo := &Mem{}
+	memInfo := &Mem{}
 
-    reader := bufio.NewReader(bytes.NewBuffer(contents))
+	reader := bufio.NewReader(bytes.NewBuffer(contents))
 
-    for {
-        line, err := file.ReadLine(reader)
-        if err == io.EOF {
-            err = nil
-            break
-        } else if err != nil {
-            return nil, err
-        }
+	for {
+		line, err := file.ReadLine(reader)
+		if err == io.EOF {
+			err = nil
+			break
+		} else if err != nil {
+			return nil, err
+		}
 
-        fields := strings.Fields(string(line))
-        fieldName := fields[0]
+		fields := strings.Fields(string(line))
+		fieldName := fields[0]
 
-        _, ok := WANT[fieldName]
-        if ok && len(fields) == 3 {
-            val, numerr := strconv.ParseUint(fields[1], 10, 64)
-            if numerr != nil {
-                continue
-            }
-            switch fieldName {
-            case "Buffers:":
-                memInfo.Buffers = val * Multi
-            case "Cached:":
-                memInfo.Cached = val * Multi
-            case "MemTotal:":
-                memInfo.MemTotal = val * Multi
-            case "MemFree:":
-                memInfo.MemFree = val * Multi
-            case "SwapTotal:":
-                memInfo.SwapTotal = val * Multi
-            case "SwapFree:":
-                memInfo.SwapFree = val * Multi
-            }
-        }
-    }
+		_, ok := WANT[fieldName]
+		if ok && len(fields) == 3 {
+			val, numerr := strconv.ParseUint(fields[1], 10, 64)
+			if numerr != nil {
+				continue
+			}
+			switch fieldName {
+			case "Buffers:":
+				memInfo.Buffers = val * Multi
+			case "Cached:":
+				memInfo.Cached = val * Multi
+			case "MemTotal:":
+				memInfo.MemTotal = val * Multi
+			case "MemFree:":
+				memInfo.MemFree = val * Multi
+			case "SwapTotal:":
+				memInfo.SwapTotal = val * Multi
+			case "SwapFree:":
+				memInfo.SwapFree = val * Multi
+			}
+		}
+	}
 
-    memInfo.SwapUsed = memInfo.SwapTotal - memInfo.SwapFree
+	memInfo.SwapUsed = memInfo.SwapTotal - memInfo.SwapFree
 
-    return memInfo, nil
+	return memInfo, nil
 }

@@ -6,7 +6,7 @@ import (
 
 func ListMountPoint() ([][3]string, error) {
 	result := make([][3]string, 0)
-	list, err := disk.DiskPartitions(true)
+	list, err := disk.Partitions(true)
 	if err != nil {
 		return nil, err
 	}
@@ -18,7 +18,7 @@ func ListMountPoint() ([][3]string, error) {
 
 func BuildDeviceUsage(_fsSpec, _fsFile, _fsVfstype string) (*DeviceUsage, error) {
 	var deviceUsage DeviceUsage
-	stat, err := disk.DiskUsage(_fsSpec)
+	stat, err := disk.Usage(_fsSpec)
 	if err != nil {
 		return nil, err
 	}
