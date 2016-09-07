@@ -82,7 +82,7 @@ func parseCpuFields(fields []string) *CpuUsage {
 	cu := new(CpuUsage)
 	sz := len(fields)
 	for i := 1; i < sz; i++ {
-		val, err := strconv.ParseUint(fields[i], 10, 64)
+		val, err := strconv.ParseFloat(fields[i], 64)
 		if err != nil {
 			continue
 		}

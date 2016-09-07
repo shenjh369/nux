@@ -15,16 +15,16 @@ func CurrentProcStat() (*ProcStat, error) {
 	stat := stats[0]
 
 	cu := &CpuUsage{
-		User:    uint64(stat.User),
-		Nice:    uint64(stat.Nice),
-		System:  uint64(stat.System),
-		Idle:    uint64(stat.Idle),
-		Iowait:  uint64(stat.Iowait),
-		Irq:     uint64(stat.Irq),
-		SoftIrq: uint64(stat.Softirq),
-		Steal:   uint64(stat.Steal),
-		Guest:   uint64(stat.Guest),
-		Total:   uint64(stat.User + stat.Nice + stat.System + stat.Idle + stat.Irq + stat.Softirq + stat.Steal + stat.Guest),
+		User:    stat.User,
+		Nice:    stat.Nice,
+		System:  stat.System,
+		Idle:    stat.Idle,
+		Iowait:  stat.Iowait,
+		Irq:     stat.Irq,
+		SoftIrq: stat.Softirq,
+		Steal:   stat.Steal,
+		Guest:   stat.Guest,
+		Total:   stat.User + stat.Nice + stat.System + stat.Idle + stat.Irq + stat.Softirq + stat.Steal + stat.Guest,
 	}
 	ps := &ProcStat{Cpus: make([]*CpuUsage, 1)}
 	ps.Cpu = cu

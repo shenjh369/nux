@@ -5,16 +5,16 @@ import (
 )
 
 type CpuUsage struct {
-	User    uint64 // time spent in user mode
-	Nice    uint64 // time spent in user mode with low priority (nice)
-	System  uint64 // time spent in system mode
-	Idle    uint64 // time spent in the idle task
-	Iowait  uint64 // time spent waiting for I/O to complete (since Linux 2.5.41)
-	Irq     uint64 // time spent servicing  interrupts  (since  2.6.0-test4)
-	SoftIrq uint64 // time spent servicing softirqs (since 2.6.0-test4)
-	Steal   uint64 // time spent in other OSes when running in a virtualized environment (since 2.6.11)
-	Guest   uint64 // time spent running a virtual CPU for guest operating systems under the control of the Linux kernel. (since 2.6.24)
-	Total   uint64 // total of all time fields
+	User    float64 // time spent in user mode
+	Nice    float64 // time spent in user mode with low priority (nice)
+	System  float64 // time spent in system mode
+	Idle    float64 // time spent in the idle task
+	Iowait  float64 // time spent waiting for I/O to complete (since Linux 2.5.41)
+	Irq     float64 // time spent servicing  interrupts  (since  2.6.0-test4)
+	SoftIrq float64 // time spent servicing softirqs (since 2.6.0-test4)
+	Steal   float64 // time spent in other OSes when running in a virtualized environment (since 2.6.11)
+	Guest   float64 // time spent running a virtual CPU for guest operating systems under the control of the Linux kernel. (since 2.6.24)
+	Total   float64 // total of all time fields
 }
 
 func (this *CpuUsage) String() string {
