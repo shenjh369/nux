@@ -89,6 +89,29 @@ func NetIfs(onlyPrefix []string) ([]*NetIf, error) {
 		netIf.TotalErrors = netIf.InErrors + netIf.OutErrors
 		netIf.TotalDropped = netIf.InDropped + netIf.OutDropped
 
+		speedFile := fmt.Sprintf("/sys/class/net/%s/speed", netIf.Iface)
+		if content, err := ioutil.ReadFile(speedFile); err == nil {
+			var speed int64
+			speed, err = strconv.ParseInt(strings.TrimSpace(string(content)), 10, 64)
+			if err != nil {
+				netIf.SpeedBits = int64(0)
+				netIf.InPercent = float64(0)
+				netIf.OutPercent = float64(0)
+			} else if speed == 0 {
+				netIf.SpeedBits = int64(0)
+				netIf.InPercent = float64(0)
+				netIf.OutPercent = float64(0)
+			} else {
+				netIf.SpeedBits = speed * MILLION_BIT
+				netIf.InPercent = float64(netIf.InBytes*BITS_PER_BYTE) * 100.0 / float64(netIf.SpeedBits)
+				netIf.OutPercent = float64(netIf.OutBytes*BITS_PER_BYTE) * 100.0 / float64(netIf.SpeedBits)
+			}
+		} else {
+			netIf.SpeedBits = int64(0)
+			netIf.InPercent = float64(0)
+			netIf.OutPercent = float64(0)
+		}
+
 		ret = append(ret, &netIf)
 	}
 

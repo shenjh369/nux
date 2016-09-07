@@ -1,6 +1,13 @@
 package nux
 
-import "fmt"
+import (
+	"fmt"
+)
+
+const (
+	BITS_PER_BYTE = 8
+	MILLION_BIT   = 1000000
+)
 
 type NetIf struct {
 	Iface          string
@@ -24,6 +31,9 @@ type NetIf struct {
 	TotalPackages  int64
 	TotalErrors    int64
 	TotalDropped   int64
+	SpeedBits      int64
+	InPercent      float64
+	OutPercent     float64
 }
 
 func (this *NetIf) String() string {

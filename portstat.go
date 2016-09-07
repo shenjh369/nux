@@ -13,12 +13,17 @@ import (
 	"github.com/toolkits/sys"
 )
 
+// ListeningPorts 为了兼容老代码
 func ListeningPorts() ([]int64, error) {
-	return listeningPorts("sh", "-c", "ss", "-t", "-l", "-n")
+	return TcpPorts()
+}
+
+func TcpPorts() ([]int64, error) {
+	return listeningPorts("sh", "-c", "ss -t -l -n")
 }
 
 func UdpPorts() ([]int64, error) {
-	return listeningPorts("sh", "-c", "ss", "-u", "-a", "-n")
+	return listeningPorts("sh", "-c", "ss -u -a -n")
 }
 
 func listeningPorts(name string, args ...string) ([]int64, error) {

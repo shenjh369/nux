@@ -16,7 +16,7 @@ func NetIfs(ifacePrefix []string) ([]*NetIf, error) {
 			int64(v.Errin), int64(v.Dropin), 0, 0, 0, 0, int64(v.BytesSent),
 			int64(v.PacketsSent), int64(v.Errout), int64(v.Dropout), 0, 0, 0, 0,
 			int64(v.BytesRecv + v.BytesSent), int64(v.PacketsRecv + v.PacketsSent),
-			int64(v.Errin + v.Errout), int64(v.Dropin + v.Dropout),
+			int64(v.Errin + v.Errout), int64(v.Dropin + v.Dropout), 0, 0, 0,
 		}
 		netifs = append(netifs, &N)
 	}
