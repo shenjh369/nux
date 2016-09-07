@@ -3,6 +3,7 @@ package nux
 import (
 	"bufio"
 	"bytes"
+	"fmt"
 	"io"
 	"io/ioutil"
 	"strconv"
